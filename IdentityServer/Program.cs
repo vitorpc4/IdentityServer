@@ -1,4 +1,5 @@
 using IdentityServer.Data;
+using IdentityServer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,16 +11,22 @@ IConfiguration configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
-// Add services to the container.
+//Configurações pomelo
+var connectionString = configuration.GetConnectionString("IdentityConnection");
+var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
 
+// Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseMySQL(configuration.GetConnectionString("IdentityConnection"))
+    opt.UseMySql(connectionString,serverVersion)
     );
 
-builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>()
+//Adicionando custom Identity
+builder.Services.AddIdentity<CustomIdentityUser, IdentityRole<int>>(
+        opt => opt.SignIn.RequireConfirmedEmail = true
+    )
     .AddEntityFrameworkStores<AppDbContext>();
 
 var app = builder.Build();
