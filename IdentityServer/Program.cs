@@ -1,10 +1,10 @@
 using IdentityServer.Data;
 using IdentityServer.Models;
+using IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
 //Configuration
 
 IConfiguration configuration = new ConfigurationBuilder()
@@ -27,15 +27,22 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 builder.Services.AddIdentity<CustomIdentityUser, IdentityRole<int>>(
         opt => opt.SignIn.RequireConfirmedEmail = true
     )
-    .AddEntityFrameworkStores<AppDbContext>();
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
+//Scoped
+
+builder.Services.AddScoped<RegisterService, RegisterService>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+
 }
 
 app.UseHttpsRedirection();
