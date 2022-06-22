@@ -17,18 +17,11 @@ namespace IdentityServer.Data
         {
             base.OnModelCreating(builder);
 
-            ////Customizing Table Names
-            builder.Entity<IdentityUser>().ToTable("Users");
-            builder.Entity<IdentityUserRole<int>>().ToTable("UserRoles");
-            builder.Entity<IdentityUserLogin<int>>().ToTable("UserLogins");
-            builder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims");
-            builder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
-            builder.Entity<IdentityRole>().ToTable("Roles");
-
             CustomIdentityUser admin = new CustomIdentityUser
             {
                 UserName = "admin",
                 NormalizedUserName = "ADMIN",
+                EmailConfirmed = true,
                 Id = 99999
             };
 
@@ -37,15 +30,13 @@ namespace IdentityServer.Data
 
             builder.Entity<CustomIdentityUser>().HasData(admin);
 
-            builder.Entity<IdentityRole<int>>().ToTable("Roles").HasData(
+            builder.Entity<IdentityRole<int>>().HasData(
                 new IdentityRole<int> { Id = 99999, Name = "admin", NormalizedName = "ADMIN" }
             );
 
-            builder.Entity<IdentityUserRole<int>>().ToTable("UserRoles").HasData(
+            builder.Entity<IdentityUserRole<int>>().HasData(
                 new IdentityUserRole<int> { RoleId = 99999, UserId = 99999}
                 );
-
-          
         }
     }
 }
