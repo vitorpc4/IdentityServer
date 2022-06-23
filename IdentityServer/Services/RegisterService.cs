@@ -2,6 +2,7 @@
 using FluentResults;
 using IdentityServer.Data;
 using IdentityServer.Data.Dtos;
+using IdentityServer.Data.Requests;
 using IdentityServer.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -34,6 +35,17 @@ namespace IdentityServer.Services
 
             return Result.Fail("An error occurred while registering this user");
 
+        }
+
+        public Result ConfirmAccount(AtivaContaRequest request)
+        {
+            var identityUser = _userManager.Users.FirstOrDefault(u => u.Id == request.userId);
+            var identityResult = _userManager.ConfirmEmailAsync(identityUser, request.activateCode).Result;
+            if (identityResult.Succeeded)
+            {
+                return Result.Ok();
+            }
+            return Result.Fail("User account activation failed");
         }
     }
 }
