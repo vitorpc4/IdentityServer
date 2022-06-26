@@ -6,7 +6,7 @@ Esse projeto é a modelagem básica para implementação de um IdentityServer, n
 Com relação a Token gerada, é gerado de forma aleatória uma chave em um arquivo local, que poderá ser informada do bearer token para realizar a validação.
 
 Vale ressaltar que o projeto faz uso de user-secrets para criação da senha do usuário administrador
-https://docs.microsoft.com/pt-br/aspnet/core/security/app-secrets?view=aspnetcore-6.0&tabs=windows
+* https://docs.microsoft.com/pt-br/aspnet/core/security/app-secrets?view=aspnetcore-6.0&tabs=windows
 
 Para realizar a criação do campo necessário basta executar o seguinte comando no git bash
 dotnet user-secrets init
