@@ -51,7 +51,7 @@ namespace IdentityServer.Services
 
         }
 
-        public Result ConfirmAccount(AtivaContaRequest request)
+        public Result ConfirmAccount(ActiveAccountRequest request)
         {
             var identityUser = _userManager
                 .Users
