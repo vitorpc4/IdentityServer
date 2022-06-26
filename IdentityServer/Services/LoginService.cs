@@ -9,10 +9,12 @@ namespace IdentityServer.Services
     {
         private SignInManager<CustomIdentityUser> _signInManager;
         private TokenService _tokenService;
-        public LoginService(SignInManager<CustomIdentityUser> signInManager, TokenService tokenService)
+        private UserManager<CustomIdentityUser> _userManager;
+        public LoginService(SignInManager<CustomIdentityUser> signInManager, TokenService tokenService, UserManager<CustomIdentityUser> userManager)
         {
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _userManager = userManager;
         }
         public Result LoginUser(RequestLogin requestLogin)
         {
@@ -34,6 +36,31 @@ namespace IdentityServer.Services
             }
             return Result.Fail("Login falhou");
         }
+        public Result NewPassword(RequestNewPassword requestNewPassowrd)
+        {
+           var identityUser = recoveryUserByEmail(requestNewPassowrd.Email);
+           if(identityUser != null)
+            {
+                var tokenPassword = _userManager.GeneratePasswordResetTokenAsync(identityUser).Result;
+                return Result.Ok().WithSuccess(tokenPassword);
+            }
+            return Result.Fail("an error occurred when requesting the token to update the password");
+        }
+
+        public Result changePassword(RequestChangePassword requestChangePassword)
+        {
+            var identityUser = recoveryUserByEmail(requestChangePassword.Email);
+            if(identityUser != null)
+            {
+                var resetPassword = _userManager.ResetPasswordAsync(identityUser, requestChangePassword.Token,requestChangePassword.Password).Result;
+                if (resetPassword.Succeeded)
+                {
+                    return Result.Ok().WithSuccess("Password change was successful");
+                }
+                
+            }
+            return Result.Fail("An error occurred when resetting the password");
+        }
 
         private CustomIdentityUser recoveryUserByEmail(string email)
         {
@@ -44,6 +71,8 @@ namespace IdentityServer.Services
             }
             return null;
         }
+
+
 
     }
 }

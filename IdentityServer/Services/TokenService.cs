@@ -11,7 +11,7 @@ namespace IdentityServer.Services
     public class TokenService
     {
         private static RandomNumberGenerator RNG = RandomNumberGenerator.Create();
-        private static readonly string MyJwkLocation = Path.Combine(Environment.CurrentDirectory, "secreyKey.json");
+        private static readonly string MyJwkLocation = Path.Combine(Environment.CurrentDirectory, "secretKey.json");
         public Token CreateToken(CustomIdentityUser usuario, string role)
         {
             var key = LoadKey();
