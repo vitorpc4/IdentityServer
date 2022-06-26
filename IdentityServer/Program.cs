@@ -40,6 +40,7 @@ builder.Services.AddRouting(options =>
 builder.Services.AddScoped<RegisterService, RegisterService>();
 builder.Services.AddScoped<LoginService,LoginService>();
 builder.Services.AddScoped<TokenService, TokenService>();
+builder.Services.AddScoped<LogoutService,LogoutService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 

@@ -25,7 +25,7 @@ namespace IdentityServer.Controllers
         }
 
         [HttpGet("/active")]
-        public IActionResult ConfirmAccount([FromQuery] AtivaContaRequest request)
+        public IActionResult ConfirmAccount([FromQuery] ActiveAccountRequest request)
         {
             Result resultado = _registerService.ConfirmAccount(request);
             if(resultado.IsSuccess) return Ok(resultado.Successes);

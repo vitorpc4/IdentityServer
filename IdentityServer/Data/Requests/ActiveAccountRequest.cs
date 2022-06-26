@@ -2,7 +2,7 @@
 
 namespace IdentityServer.Data.Requests
 {
-    public class AtivaContaRequest
+    public class ActiveAccountRequest
     {
         [Required]
         public int userId { get; set; }
