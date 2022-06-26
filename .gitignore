@@ -2,3 +2,5 @@
 IdentityServer/obj
 .vs
 IdentityServer/bin
+IdentityServer/secreyKey.json
+IdentityServer/secretKey.json
