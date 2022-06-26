@@ -11,6 +11,12 @@ IConfiguration configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
+builder.Services.AddIdentity<CustomIdentityUser, IdentityRole<int>>(
+        opt => opt.SignIn.RequireConfirmedEmail = true
+    )
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
 //Configurações pomelo
 var connectionString = configuration.GetConnectionString("IdentityConnection");
 var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
@@ -24,17 +30,18 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     );
 
 //Adicionando custom Identity
-builder.Services.AddIdentity<CustomIdentityUser, IdentityRole<int>>(
-        opt => opt.SignIn.RequireConfirmedEmail = true
-    )
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
-
+builder.Services.AddRouting(options =>
+{
+    options.LowercaseUrls = true;
+    options.LowercaseQueryStrings = false;
+});
 //Scoped
 
 builder.Services.AddScoped<RegisterService, RegisterService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+
+builder.Host.ConfigureAppConfiguration((context, builder) => builder.AddUserSecrets<Program>());
 
 var app = builder.Build();
 
