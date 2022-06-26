@@ -19,7 +19,7 @@ namespace IdentityServer.Controllers
         public IActionResult loginUser(RequestLogin requestLogin)
         {
             Result result = _loginService.LoginUser(requestLogin);
-            if (result.IsSuccess) return Ok(result.Reasons);
+            if (result.IsSuccess) return Ok(result);
             return Unauthorized(result.Errors);
         }
     }

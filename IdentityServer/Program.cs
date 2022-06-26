@@ -38,6 +38,8 @@ builder.Services.AddRouting(options =>
 //Scoped
 
 builder.Services.AddScoped<RegisterService, RegisterService>();
+builder.Services.AddScoped<LoginService,LoginService>();
+builder.Services.AddScoped<TokenService, TokenService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
